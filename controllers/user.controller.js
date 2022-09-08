@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { saltRounds } from '../config/config.js';
 
-export const getAllUser = async (req, res) => {
+export const getAllUser = async (req, res, next) => {
 
     const query = "SELECT * FROM user";
     try {
@@ -20,7 +20,7 @@ export const getAllUser = async (req, res) => {
     }
 }
 
-export const addUser = async (req, res) => {
+export const addUser = async (req, res, next) => {
     const {alias, password} = req.body;
     const hash = await bcrypt.hash(password, saltRounds);
     const datas = {
@@ -44,7 +44,7 @@ export const addUser = async (req, res) => {
     }
 }
 
-export const getUserByUuid = async (req, res) => {
+export const getUserByUuid = async (req, res, next) => {
     let {uuid} = req.params;
     const query = "SELECT alias, password, city, uuid, role_id FROM user WHERE uuid = ?";
     try {
@@ -66,7 +66,7 @@ export const getUserByUuid = async (req, res) => {
 //     "alias": "valeur",
 //     "password": "valeur"
 // }
-export const updateUserbyUuid = async (req, res) => {
+export const updateUserbyUuid = async (req, res, next) => {
     let {uuid} = req.params;
     const {alias, password} = req.body;
     const hash = await bcrypt.hash(password, saltRounds);

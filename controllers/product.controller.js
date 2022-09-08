@@ -1,6 +1,6 @@
 import Product from '../models/product.js';
 
-export const getAllProduct = async (req, res) => {
+export const getAllProduct = async (req, res, next) => {
 
     const query = "SELECT * FROM product";
     try {
@@ -16,7 +16,7 @@ export const getAllProduct = async (req, res) => {
     }
 }
 
-export const getProductById = async (req, res) => {
+export const getProductById = async (req, res, next) => {
     
     const query = "SELECT id, title, content, img_url, user_id, category_id FROM product WHERE id = ?";
     const values = req.params.id;
@@ -34,7 +34,7 @@ export const getProductById = async (req, res) => {
     }
 }
 
-export const getProductByCategoryId = async (req, res) => {
+export const getProductByCategoryId = async (req, res, next) => {
         
     const query = "SELECT id, title, content, img_url, user_id, category_id FROM product WHERE category_id = ?";
     const values = req.params.id;
@@ -61,7 +61,7 @@ export const getProductByCategoryId = async (req, res) => {
 //     "user_id": valeur,
 //     "category_id": valeur
 // }
-export const addProduct = async (req, res) => {
+export const addProduct = async (req, res, next) => {
     // gerer ici l'img
     // condition etc...
 
@@ -88,7 +88,7 @@ export const addProduct = async (req, res) => {
     }
 }
 
-export const addCategory = async (req, res) => {
+export const addCategory = async (req, res, next) => {
     
     const query = "INSERT INTO category (title) VALUES (?)";
     const values = [req.body.title];
@@ -106,7 +106,7 @@ export const addCategory = async (req, res) => {
     }
 }
 
-export const updateProductbyId = async (req, res) => {
+export const updateProductbyId = async (req, res, next) => {
         
     const query = "UPDATE product SET title = ?, content = ?, img_url = ?, user_id = ?, category_id = ? WHERE id = ?";
     const datas = {
@@ -137,7 +137,7 @@ export const updateProductbyId = async (req, res) => {
 // {
 //     "title": "valeur"
 // }
-export const updateCategorybyId = async (req, res) => {
+export const updateCategorybyId = async (req, res, next) => {
             
     const query = "UPDATE category SET title = ? WHERE id = ?";
     const datas = {
@@ -159,7 +159,7 @@ export const updateCategorybyId = async (req, res) => {
     }
 }
 
-export const getAllCategory = async (req, res) => {
+export const getAllCategory = async (req, res, next) => {
     const query = "SELECT * FROM category";
     try {
         const result = await Product.getAll(query);
@@ -176,7 +176,7 @@ export const getAllCategory = async (req, res) => {
     }
 }
 
-export const addImg = async (req, res) => {
+export const addImg = async (req, res, next) => {
     try {
         await req.files.image.mv(`public/img/${req.files.image.name}`);
         res.json({
@@ -191,7 +191,7 @@ export const addImg = async (req, res) => {
     }; 
 };
 
-export const addImgByProductId = async (req, res) => {
+export const addImgByProductId = async (req, res, next) => {
     const query = "UPDATE product SET img_url = ? WHERE id = ?";
     const datas = {
         img_url : req.files.image.name,
